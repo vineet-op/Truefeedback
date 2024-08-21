@@ -23,7 +23,7 @@ import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 
-function page() {
+export default function Signup() {
 
 
     const [username, setusername] = useState("");
@@ -190,4 +190,4 @@ function page() {
     )
 }
 
-export default page
+

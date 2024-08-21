@@ -19,7 +19,9 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-const page = () => {
+
+
+export default function Verify() {
 
     const router = useRouter()
     const params = useParams()
@@ -88,4 +90,4 @@ const page = () => {
     )
 }
 
-export default page
+
