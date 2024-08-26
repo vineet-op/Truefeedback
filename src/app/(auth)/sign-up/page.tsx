@@ -88,6 +88,8 @@ export default function Signup() {
             })
             router.replace(`verify/${username}`)
             setisSubmitting(false)
+            console.log(data);
+
         } catch (error) {
             console.error("Error in Sign-up of User", error);
             const axiosError = error as AxiosError<ApiResponse>

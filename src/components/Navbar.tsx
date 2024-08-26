@@ -23,7 +23,7 @@ export default function Navbar() {
                             <Button onClick={() => signOut()} >Logout</Button>
                         </>
                     ) : (
-                        <Link href="/sign-in">
+                        <Link href="/sign-up">
                             <Button>
                                 Login
                             </Button>

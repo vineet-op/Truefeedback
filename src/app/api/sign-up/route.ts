@@ -9,6 +9,7 @@ export async function POST(request: Request) {
   try {
     const { username, email, password } = await request.json();
 
+    //*User is Present and verified
     const existingUserVerifyByUsername = await UserModel.findOne({
       username,
       isVerified: true,
@@ -25,6 +26,7 @@ export async function POST(request: Request) {
         }
       );
     }
+
 
     const existingUserByEmail = await UserModel.findOne({ email });
     let verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -65,6 +67,8 @@ export async function POST(request: Request) {
       });
 
       await newUser.save();
+      console.log("New User", newUser);
+
     }
 
     //Send email for verification

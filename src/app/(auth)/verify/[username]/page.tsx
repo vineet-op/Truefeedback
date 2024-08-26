@@ -35,16 +35,17 @@ export default function Verify() {
     const onSubmit = async (data: z.infer<typeof verifySchema>) => {
 
         try {
-            const response = await axios.post(`api/verify-code`, {
+            const response = await axios.post(`/api/verify-code`, {
                 username: params.username,
                 code: data.code
             })
+            console.log(data);
 
             toast({
                 title: "Success",
                 description: response.data.message
             })
-            router.replace("sign-in")
+            router.replace("/sign-in")
 
         } catch (error) {
             console.error("Error in Sign-up of User", error);

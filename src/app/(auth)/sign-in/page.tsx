@@ -53,6 +53,7 @@ export default function Signin() {
             identifier: data.identifier,
             password: data.password
         })
+        console.log(result);
 
         if (result?.error) {
             if (result.error == 'credentialsSignin') {
@@ -73,7 +74,7 @@ export default function Signin() {
         }
 
         if (result?.url) {
-            router.replace('/dashboard1')
+            router.replace('/dashboard')
         }
 
     }
