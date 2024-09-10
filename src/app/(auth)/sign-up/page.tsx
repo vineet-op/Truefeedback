@@ -126,6 +126,7 @@ export default function Signup() {
                                         onChange={(e) => {
                                             field.onChange(e);
                                             debounced(e.target.value);
+                                            setusername(e.target.value)
                                         }}
                                     />
                                     {isCheckingUsername && <Loader2 className="animate-spin" />}

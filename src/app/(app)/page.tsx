@@ -15,8 +15,20 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
 
 export default function Home() {
+
+  const { data: session, status } = useSession()
+  const router = useRouter();
+
+  if (status === "authenticated") {
+    router.push("/dashboard");
+  }
+
+
   return (
     <>
       {/* Main content */}
@@ -58,6 +70,11 @@ export default function Home() {
         </Carousel>
       </main>
 
+      <div className='max-h-full h-20 flex flex-1 justify-center items-center bg-slate-800'>
+        <Button className='h-20' onClick={() => signIn("github")}>
+          Signup With Github
+        </Button>
+      </div>
       {/* Footer */}
       <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
         © 2023 True Feedback. All rights reserved.

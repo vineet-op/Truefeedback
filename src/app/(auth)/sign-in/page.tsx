@@ -28,15 +28,11 @@ export default function Signin() {
 
 
     const router = useRouter();
-    const { toast } = useToast();
-
-
 
 
     const form = useForm<z.infer<typeof signInSchema>>({
         resolver: zodResolver(signInSchema),
         defaultValues: {
-
             identifier: "",
             password: ""
         }
@@ -44,6 +40,7 @@ export default function Signin() {
 
     })
 
+    const { toast } = useToast();
 
 
     const onSubmit = async (data: z.infer<typeof signInSchema>) => {
@@ -54,6 +51,7 @@ export default function Signin() {
             password: data.password
         })
         console.log(result);
+
 
         if (result?.error) {
             if (result.error == 'credentialsSignin') {
@@ -125,8 +123,8 @@ export default function Signin() {
                 </Form>
                 <div className="text-center mt-4">
                     <p>
-                        Already a member?{' '}
-                        <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
+                        Not a member?{' '}
+                        <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
                             Sign in
                         </Link>
                     </p>

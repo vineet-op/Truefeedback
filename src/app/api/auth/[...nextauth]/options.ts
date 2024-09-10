@@ -3,9 +3,15 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { NextAuthOptions } from "next-auth";
 import bcrypt from "bcryptjs";
+import GitHubProvider from "next-auth/providers/github";
 
 export const AuthOptions: NextAuthOptions = {
   providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID || "",
+      clientSecret: process.env.GITHUB_SECRET || ""
+    }),
+
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
@@ -14,6 +20,7 @@ export const AuthOptions: NextAuthOptions = {
         password: { password: "Password", type: "text" },
       },
 
+
       async authorize(credentials: any): Promise<any> {
         await dbConnect();
 
@@ -21,7 +28,7 @@ export const AuthOptions: NextAuthOptions = {
           const user = await UserModel.findOne({
             $or: [
               {
-                email: credentials.identifier,
+                email: credentials.email,
               },
               {
                 username: credentials.identifier,
@@ -68,12 +75,16 @@ export const AuthOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
+      console.log("Token", token);
+
       if (token) {
-        session.user._id = token._id;
+        session.user._id = token._id?.toString();
         session.user.isVerified = token.isVerified;
         session.user.isAcceptingMessage = token.isAcceptingMessage;
         session.user.username = token.username;
       }
+
+      console.log("Session object", session);
       return session;
     },
   },
@@ -82,12 +93,10 @@ export const AuthOptions: NextAuthOptions = {
     signIn: "/sign-in",
 
   },
-
-  secret: process.env.NEXTAUTH_URL,
-
   session: {
     strategy: "jwt",
   },
 
+  secret: process.env.NEXTAUTH_SECRET,
 
 };

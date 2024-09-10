@@ -7,15 +7,19 @@ import { useSession, signOut } from 'next-auth/react';
 import { Button } from './ui/button';
 
 
+
+
 export default function Navbar() {
 
     const { data: session } = useSession()
     const user: User = session?.user as User;
 
+
+
     return (
         <nav>
-            <div>
-                <a href="#">True Feedback</a>
+            <div className='flex flex-1 justify-between flex-row  bg-gray-800 '>
+                <a href="#" className=' m-4 text-center text-white font-semibold'>True Feedback</a>
                 {
                     session ? (
                         <>
@@ -24,14 +28,14 @@ export default function Navbar() {
                         </>
                     ) : (
                         <Link href="/sign-up">
-                            <Button>
+                            <Button className='m-4'>
                                 Login
                             </Button>
                         </Link>
                     )
                 }
             </div>
-        </nav>
+        </nav >
     )
 }
 
