@@ -26,6 +26,8 @@ const page = () => {
     const { data: session, status } = useSession()
     console.log(session);
 
+    console.log(messages);
+
     const handleDelete = (messageId: string) => {
         setMessages(messages.filter((message) => message._id !== messageId))
     }
@@ -61,6 +63,7 @@ const page = () => {
         try {
             const response = await axios.get<ApiResponse>('/api/get-messages')
             setMessages(response.data.messages || [])
+            console.log(response.data.message);
 
             if (refresh) {
                 toast({
