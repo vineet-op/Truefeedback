@@ -26,11 +26,11 @@ const page = () => {
     const { data: session, status } = useSession()
     console.log(session);
 
-    console.log(messages);
 
     const handleDelete = (messageId: string) => {
         setMessages(messages.filter((message) => message._id !== messageId))
     }
+    console.log(messages);
 
     const form = useForm({
         resolver: zodResolver(acceptMessageSchema)
