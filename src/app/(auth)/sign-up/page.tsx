@@ -51,13 +51,13 @@ export default function Signup() {
 
     useEffect(() => {
         const checkUsernameUnique = async () => {
-            if (username) {
+            if (debounced) {
                 setisCheckingUsername(true);
                 setusernameMessage("");
 
                 try {
 
-                    const respose = await axios.get(`/api/check-username-unique?username=${username}`)
+                    const respose = await axios.get(`/api/check-username-unique?username=${debounced}`)
                     setusernameMessage(respose.data.message)
 
                 } catch (error) {

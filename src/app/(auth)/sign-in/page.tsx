@@ -54,7 +54,7 @@ export default function Signin() {
 
 
         if (result?.error) {
-            if (result.error == 'credentialsSignin') {
+            if (result.error == 'CredentialsSignin') {
                 toast({
                     title: "Login Failed",
                     description: "Incorrect username or password",
@@ -125,7 +125,7 @@ export default function Signin() {
                     <p>
                         Not a member?{' '}
                         <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
-                            Sign in
+                            Sign up
                         </Link>
                     </p>
                 </div>

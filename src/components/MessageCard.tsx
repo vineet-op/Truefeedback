@@ -22,7 +22,7 @@ import { Message } from '@/model/User'
 import { useToast } from './ui/use-toast'
 import axios, { AxiosError } from 'axios'
 import { ApiResponse } from '../../types/ApiResponse'
-
+import dayjs from "dayjs"
 
 
 
@@ -60,18 +60,22 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Card Title</CardTitle>
+                <CardTitle>{message.content}</CardTitle>
 
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive"><X className='w-5 h-5' /></Button>
+                        <div className='flex justify-end items-center'>
+                            <Button variant='destructive'>
+                                <X className="size-8" />
+                            </Button>
+                        </div>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                             <AlertDialogDescription>
                                 This action cannot be undone. This will permanently delete your
-                                account and remove your data from our servers.
+                                your Message from our servers.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -80,7 +84,7 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
-                <CardDescription>Card Description</CardDescription>
+                <CardDescription>{dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}</CardDescription>
             </CardHeader>
         </Card>
 

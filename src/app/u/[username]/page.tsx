@@ -88,6 +88,7 @@ export default function SendMessage() {
         }
     };
 
+
     const fetchSuggestedMessages = async () => {
         try {
             complete('');
