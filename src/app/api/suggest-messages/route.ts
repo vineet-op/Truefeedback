@@ -1,39 +1,36 @@
-import { OpenAI } from "openai";
-import { NextResponse } from "next/server";
-
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleAIFileManager, FileState } from "@google/generative-ai/server";
 
 
-export async function POST(req: Request) {
-    console.log("API route hit!");
+
+export const maxDuration = 30;
+
+export async function POST(request: Request) {
     try {
-        const prompt = "Create a list of three open-ended and engaging questions formatted as a single string. Each question should be separated by '||'.";
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        console.log("Sending prompt to OpenAI...");
+        const prompt = "Generate Random 3 Questions or statements for a feedback app, Don't include special characters only include letters and numbers";
 
-        const response = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: prompt }],
-            max_tokens: 400,
-            stream: true,
+        const result = await model.generateContent(prompt);
+        const story = result.response.text()
+        console.log(result.response.text());
+
+        return new Response(JSON.stringify(story), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
 
-        let fullResponse = '';
-        for await (const chunk of response) {
-            const { choices } = chunk;
-            if (choices && choices.length > 0) {
-                const text = choices[0].delta?.content || "";
-                fullResponse += text;
-            }
-        }
 
-        console.log("Full response from OpenAI:", fullResponse);
-
-        return NextResponse.json({ message: fullResponse });
     } catch (error) {
-        console.error("Error occurred:", error);
-        throw error;
+        console.error("An unexpected error occurred:", error);
+        return new Response(JSON.stringify({ error: 'An unexpected error occurred' }), {
+            status: 500,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
     }
 }
