@@ -9,12 +9,16 @@ import { Button } from './ui/button';
 
 
 
+
 export default function Navbar() {
 
     const { data: session } = useSession()
     const user: User = session?.user as User;
 
 
+    const onLogout = () => {
+        signOut({ callbackUrl: 'http://localhost:3000/sign-in' });
+    };
 
     return (
         <nav>
@@ -24,7 +28,7 @@ export default function Navbar() {
                     session ? (
                         <>
                             <span> Welcome{user?.username || user?.email}</span>
-                            <Button onClick={() => signOut()} >Logout</Button>
+                            <Button onClick={() => onLogout()} >Logout</Button>
                         </>
                     ) : (
                         <Link href="/sign-up">

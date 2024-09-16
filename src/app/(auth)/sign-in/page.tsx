@@ -25,10 +25,7 @@ import { signIn } from "next-auth/react"
 
 export default function Signin() {
 
-
-
     const router = useRouter();
-
 
     const form = useForm<z.infer<typeof signInSchema>>({
         resolver: zodResolver(signInSchema),
@@ -36,12 +33,9 @@ export default function Signin() {
             identifier: "",
             password: ""
         }
-
-
     })
 
     const { toast } = useToast();
-
 
     const onSubmit = async (data: z.infer<typeof signInSchema>) => {
 
