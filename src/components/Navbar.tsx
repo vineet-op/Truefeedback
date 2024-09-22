@@ -22,17 +22,21 @@ export default function Navbar() {
 
     return (
         <nav>
-            <div className='flex flex-1 justify-between flex-row  bg-gray-800 '>
-                <a href="#" className=' m-4 text-center text-white font-semibold'>True Feedback</a>
+            <div className='flex flex-1 justify-between flex-row bg-custom-radial'>
+                <a href="#" className='p-4 m-2 text-center text-white font-semibold'>True Feedback</a>
                 {
                     session ? (
                         <>
-                            <span> Welcome{user?.username || user?.email}</span>
-                            <Button onClick={() => onLogout()} >Logout</Button>
+                            <div className='flex justify-center items-center text-white text-lg'>
+                                <span> Welcome  {user?.username || user?.email}</span>
+                            </div>
+                            <div className='flex justify-center items-center'>
+                                <Button className='bg-black' onClick={() => onLogout()} >Logout</Button>
+                            </div>
                         </>
                     ) : (
                         <Link href="/sign-up">
-                            <Button className='m-4'>
+                            <Button className='m-4 bg-black'  >
                                 Login
                             </Button>
                         </Link>

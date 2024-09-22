@@ -72,7 +72,8 @@ export default function SendMessage() {
     };
 
     return (
-        <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
+
+        <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl h-screen">
             <h1 className="text-4xl font-bold mb-6 text-center">
                 Public Profile Link
             </h1>
@@ -117,7 +118,7 @@ export default function SendMessage() {
             {aiMessages && (
                 <div className="mt-4">
                     <h2 className="text-xl font-semibold mb-2">Messages:</h2>
-                    <p className="whitespace-pre-wrap">{aiMessages}</p>
+                    <p className="whitespace-pre-wrap text-lg">{aiMessages}</p>
                 </div>
             )}
         </div>
