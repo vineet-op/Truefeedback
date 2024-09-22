@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
         const result = await model.generateContent(prompt);
         const story = result.response.text()
-        console.log(result.response.text());
+
 
         return new Response(JSON.stringify(story), {
             status: 200,
