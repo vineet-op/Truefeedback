@@ -1,3 +1,5 @@
+
+export const dynamic = 'force-dynamic';
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { z } from "zod";
@@ -12,6 +14,7 @@ export async function GET(request: Request) {
 
   try {
     const { searchParams } = new URL(request.url);
+
     const queryParams = {
       username: searchParams.get("username"),
     };
