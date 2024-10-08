@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TrueFeedback
+
+TrueFeedback is a platform where users can provide **anonymous feedback** to individuals or organizations without revealing their identity. Since anonymous feedback is often the most honest, TrueFeedback helps create a space for genuine, constructive, and unfiltered insights.
+
+
+![Screenshot 2024-10-08 201846](https://github.com/user-attachments/assets/b3e0cf6c-6b28-4bcb-86d6-07c36ebfdda4)
+
+
+
+## Features
+- 📝 Anonymous feedback submission to users or organizations
+- 🔒 Secure email verification for feedback recipients
+- 🧑‍💻 User-friendly forms for submitting feedback
+- 🕵️ Full anonymity for the feedback provider
+- ⚡ Scalable and efficient tech stack
+
+## Tech Stack
+
+| Technology      | Icon                                                                 |
+|-----------------|----------------------------------------------------------------------|
+| **Next.js**     | ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white) |
+| **MongoDB**     | ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) |
+| **Resend**      | ![Resend](https://img.shields.io/badge/Resend-FF4500?style=for-the-badge) |
+| **React Hook Form** | ![React Hook Form](https://img.shields.io/badge/React_Hook_Form-EC5990?style=for-the-badge&logo=react&logoColor=white) |
+| **Docker**      | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) Node.js (v18 or higher)
+- ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) Docker (for containerized environment)
+- ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) MongoDB instance (local or cloud)
+- Resend API key for email verification
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Installation Steps
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/truefeedback.git
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. Navigate to the project directory:
+    ```bash
+    cd truefeedback
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
 
-## Learn More
+4. Set up your MongoDB connection string in an `.env` file:
+    ```env
+    MONGODB_URI=<your-mongodb-connection-string>
+    RESEND_API_KEY=<your-resend-api-key>
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+5. Run the application:
+    ```bash
+    npm run dev
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+6. Access the app at `http://localhost:3000`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Docker Setup
 
-## Deploy on Vercel
+You can also run the application using Docker for consistent development or deployment environments.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Build the Docker image:
+    ```bash
+    docker build -t truefeedback .
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. Run the Docker container:
+    ```bash
+    docker run -p 3000:3000 truefeedback
+    ```
+
+The app will be available at `http://localhost:3000` in your browser.
