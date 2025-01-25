@@ -35,8 +35,8 @@ export default function Navbar() {
                             </div>
                         </>
                     ) : (
-                        <Link href="/sign-up">
-                            <Button className='m-4 bg-gray-900'  >
+                        <Link href="/sign-in">
+                            <Button className='m-4 bg-gray-900'>
                                 Login
                             </Button>
                         </Link>

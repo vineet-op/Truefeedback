@@ -11,14 +11,14 @@ const Credentails = () => {
                     navigator.clipboard.writeText('SuperUsers'), toast({
                         title: "Copied to clipboard"
                     })
-                }} className="px-4 py-2 text-white bg-neutral-950 cursor-pointer rounded-lg hover:bg-neutral-600">UserName</p>
+                }} className=" text-white text-center bg-neutral-950 cursor-pointer rounded-lg hover:bg-neutral-600">Click to copy Username</p>
 
 
                 <button onClick={() => {
                     navigator.clipboard.writeText('123456789'), toast({
                         title: "Copied to clipboard"
                     })
-                }} className="px-4 py-2  text-white bg-neutral-900 cursor-pointer rounded-lg hover:bg-neutral-600">Password</button>
+                }} className=" text-white bg-neutral-900 cursor-pointer rounded-lg hover:bg-neutral-600"> Click to copy Password</button>
 
             </div>
         </div>
