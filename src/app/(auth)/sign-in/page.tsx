@@ -21,6 +21,7 @@ import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { signInSchema } from "@/schema/signInSchema"
 import { signIn } from "next-auth/react"
+import Credentails from "@/components/Credentails"
 
 
 export default function Signin() {
@@ -80,9 +81,12 @@ export default function Signin() {
                     </h1>
                     <p className="mb-4">Sign in to start your anonymous adventure</p>
                 </div>
+
+
+                <Credentails />
+
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
                         <FormField
                             name="identifier"
                             control={form.control}

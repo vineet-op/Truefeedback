@@ -44,14 +44,14 @@ export default function Home() {
                 TrueFeedback empowers users to provide genuine, constructive insights without revealing their identity. Create a space for unfiltered truth and drive positive change.
               </p>
               <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
-                <Link href="/sign-up">
+                {/* <Link href="/sign-up">
                   <Button size="lg" className="w-full sm:w-auto bg-blue-500 text-white hover:bg-blue-600">
                     Signup
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
-                </Link>
+                </Link> */}
                 <Link href="/sign-in">
-                  <Button size="lg" variant="outline" className="w-full text-blue-500 sm:w-auto border-gray-600  hover:bg-gray-500">
+                  <Button size="lg" variant="outline" className="w-full px-16 text-blue-500 sm:w-auto border-gray-600  hover:bg-gray-500">
                     Login
                   </Button>
                 </Link>
