@@ -12,8 +12,9 @@ import { ApiResponse } from '../../../../types/ApiResponse'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Separator } from '@/components/ui/separator'
-import { Loader2, RefreshCcw } from 'lucide-react'
+import { ClipboardCopy, MessageSquare, RefreshCw } from "lucide-react"
 import MessageCard from '@/components/MessageCard'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User } from 'next-auth'
 
 const Page = () => {
@@ -24,13 +25,13 @@ const Page = () => {
     const { toast } = useToast()
 
     const { data: session, status } = useSession()
-    console.log(session);
+
 
 
     const handleDelete = (messageId: string) => {
         setMessages(messages.filter((message) => message._id !== messageId))
     }
-    console.log(messages);
+
 
     const form = useForm({
         resolver: zodResolver(acceptMessageSchema)
@@ -94,26 +95,9 @@ const Page = () => {
     if (status === 'loading') {
         return (
             <div className='flex flex-1 max-w-full h-screen items-center justify-center '>
-                <div role="status" className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">
-                    <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
-                        <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                            <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
-                        </svg>
-                    </div>
-                    <div className="max-w-full">
-                        <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[440px] mb-2.5"></div>
-                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px] mb-2.5"></div>
-                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
-                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
-                    </div>
-                    <span className="sr-only">Loading...</span>
-                </div>
+                <span className="sr-only">Loading...</span>
             </div>
         )
-
     }
 
     if (status !== 'authenticated' || !session?.user) {
@@ -146,7 +130,7 @@ const Page = () => {
             setValue('acceptMessages', !acceptMessages)
             toast({
                 title: response.data.message,
-                variant: 'destructive'
+                variant: 'default'
             })
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>
@@ -159,61 +143,106 @@ const Page = () => {
     }
 
     return (
-        <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-            <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
 
-            <div className="mb-4">
-                <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>
-                <div className="flex items-center">
-                    <input
-                        type="text"
-                        value={profileUrl}
-                        disabled
-                        className="input input-bordered w-full p-2 mr-2"
-                    />
-                    <Button onClick={copyToClipboard}>Copy</Button>
+
+        <main className="container mx-auto px-4 py-8 min-h-screen min-w-screen ">
+            <div className="mb-8">
+                <h2 className="text-3xl font-bold tracking-tight">User Dashboard</h2>
+                <p className="text-muted-foreground">Manage your feedback and messages</p>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-12">
+                {/* Sidebar */}
+                <div className="md:col-span-4 lg:col-span-3">
+                    <div className="space-y-6 rounded-lg border bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+                        {/* User Info */}
+                        <div className="text-center">
+                            <Avatar className="mx-auto h-20 w-20">
+                                <AvatarImage src="/placeholder.svg?height=80&width=80" alt="User" />
+                                <AvatarFallback className="text-xl">SU</AvatarFallback>
+                            </Avatar>
+                            <h3 className="mt-4 text-xl font-semibold">{username}</h3>
+                            <p className="text-sm text-muted-foreground">Feedback Manager</p>
+                        </div>
+
+                        <Separator />
+
+                        {/* Accept Messages Toggle */}
+                        <div className="flex items-center justify-between">
+                            <span className="font-medium">Accept Messages</span>
+                            <Switch
+                                {...register('acceptMessages')}
+                                checked={acceptMessages}
+                                onCheckedChange={handleSwitchChange}
+                                disabled={isSwitchLoading}
+                                className="bg-slate-900"
+                            />
+                        </div>
+
+                        <Separator />
+
+                        {/* Unique Link */}
+                        <div className="space-y-2">
+                            <h3 className="font-semibold">Your Unique Link</h3>
+                            <div className="space-y-2">
+                                <div className="overflow-hidden rounded-md border bg-slate-50 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800">
+
+                                    <input
+                                        type="text"
+                                        value={profileUrl}
+                                        disabled
+                                        className="input input-bordered w-full p-2 mr-2"
+                                    />
+                                </div>
+                                <Button
+                                    onClick={copyToClipboard}
+                                    variant="default"
+                                    className="w-full bg-slate-900"
+                                >
+                                    <ClipboardCopy className="mr-2 h-4 w-4" />
+                                    Copy Link
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Main Content */}
+                <div className="md:col-span-8 lg:col-span-9">
+                    <div className="rounded-lg border bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
+                        <div className="flex items-center justify-between border-b p-4 dark:border-slate-800">
+                            <h3 className="text-xl font-semibold">Messages</h3>
+                            <Button variant="outline" size="icon" onClick={(e) => {
+                                e.preventDefault();
+                                fetchMessages(true)
+                            }}>
+                                <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+                            </Button>
+                        </div>
+
+                        <div className="p-4">
+                            {messages.length > 0 ? (
+                                <div className="space-y-4">
+                                    {messages.map((message) => (
+                                        <MessageCard
+                                            key={message._id as string}
+                                            message={message}
+                                            onMessageDelete={handleDelete}
+                                        />
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="flex h-40 flex-col items-center justify-center rounded-lg border border-dashed">
+                                    <MessageSquare className="mb-2 h-10 w-10 text-muted-foreground opacity-20" />
+                                    <p className="text-muted-foreground">No messages yet</p>
+                                    <p className="text-xs text-muted-foreground">Share your link to receive feedback</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div className="mb-4">
-                <Switch
-                    {...register('acceptMessages')}
-                    checked={acceptMessages}
-                    onCheckedChange={handleSwitchChange}
-                    disabled={isSwitchLoading}
-                />
-                <span className="ml-2">Accept Messages: {acceptMessages ? 'On' : 'Off'}</span>
-            </div>
-            <Separator />
-
-            <Button
-                className="mt-4"
-                variant="outline"
-                onClick={(e) => {
-                    e.preventDefault()
-                    fetchMessages(true)
-                }}
-            >
-                {loading ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                    <RefreshCcw className="h-4 w-4" />
-                )}
-            </Button>
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-                {messages.length > 0 ? (
-                    messages.map((message) => (
-                        <MessageCard
-                            key={message._id as string}
-                            message={message}
-                            onMessageDelete={handleDelete}
-                        />
-                    ))
-                ) : (
-                    <p>No messages to display.</p>
-                )}
-            </div>
-        </div>
+        </main >
     )
 }
 

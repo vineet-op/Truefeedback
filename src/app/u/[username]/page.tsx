@@ -14,6 +14,8 @@ import * as z from 'zod';
 import { useParams } from 'next/navigation';
 import { messageSchema } from '@/schema/messageSchema';
 import { ApiResponse } from '../../../../types/ApiResponse';
+import { CardHeader, CardContent, Card } from '@/components/ui/card';
+
 
 const specialChar = '||';
 
@@ -22,7 +24,7 @@ const parseStringMessages = (messageString: string): string[] => {
 };
 
 export default function SendMessage() {
-    const [aiMessages, setAiMessages] = useState("");
+    const [aiMessages, setAiMessages] = useState<string[]>([]);
     const [MessageLoading, setMessageLoading] = useState(false);
 
     const params = useParams<{ username: string }>();
@@ -63,8 +65,10 @@ export default function SendMessage() {
     const fetchSuggestedMessages = async () => {
         try {
             setMessageLoading(true);
-            const response = await axios.post<string>('/api/suggest-messages');
-            setAiMessages(response.data);
+            const response = await axios.post('/api/suggest-messages');
+            const messageString = response.data.message;
+            const parsedMessages = parseStringMessages(messageString);
+            setAiMessages(parsedMessages);
             setMessageLoading(false);
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -75,8 +79,13 @@ export default function SendMessage() {
         }
     };
 
+    const handleMessageClick = (message: string) => {
+        form.setValue('content', message);
+    };
+
+
     return (
-        <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl h-screen">
+        <div className="container mx-auto my-8 p-6 relative bg-white rounded max-w-4xl h-screen">
             <h1 className="text-4xl font-bold mb-6 text-center">
                 Public Profile Link
             </h1>
@@ -99,14 +108,14 @@ export default function SendMessage() {
                             </FormItem>
                         )}
                     />
-                    <div className="flex justify-center">
+                    <div className="flex justify-center w-full">
                         {isLoading ? (
-                            <Button disabled>
+                            <Button className='w-full' disabled>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 Please wait
                             </Button>
                         ) : (
-                            <Button type="submit" disabled={isLoading || !messageContent}>
+                            <Button className='w-full' type="submit" disabled={isLoading || !messageContent}>
                                 Send It
                             </Button>
                         )}
@@ -114,35 +123,54 @@ export default function SendMessage() {
                 </form>
             </Form>
 
-            <Button onClick={fetchSuggestedMessages}>
-                Suggest Messages
-            </Button>
+            <div className="space-y-4 my-8 mt-10">
+                <Card className="dark:bg-black border-none">
+                    <CardHeader className="text-center text-2xl font-semibold">
+                        Click on any message below to select it.
+                    </CardHeader>
+                    <CardContent className="flex flex-col space-y-2 max-sm:space-y-4">
 
-            {MessageLoading ? (
-                <div className="border border-blue-300 shadow rounded-md p-4 mt-10 max-w-md w-full mx-auto">
-                    <div className="animate-pulse flex space-x-4">
-                        <div className="flex-1 space-y-6 py-1">
-                            {/* Increase height of the first skeleton bar */}
-                            <div className="h-4 bg-slate-700 rounded"></div>
-                            <div className="space-y-3">
-                                <div className="grid grid-cols-3 gap-4">
-                                    {/* Increase height of the second and third skeleton bars */}
-                                    <div className="h-4 bg-slate-700 rounded col-span-2"></div>
-                                    <div className="h-4 bg-slate-700 rounded col-span-1"></div>
-                                </div>
-                                {/* Increase height of the last skeleton bar */}
-                                <div className="h-4 bg-slate-700 rounded"></div>
-                            </div>
-                        </div>
-                    </div>
+                        {aiMessages.length > 0 ? (
+                            aiMessages.map((message, index) => (
+                                <Button
+                                    key={index}
+                                    variant="outline"
+                                    className='w-full text-wrap max-sm:h-16'
+                                    onClick={() => handleMessageClick(message)}
+                                >
+                                    {message}
+                                </Button>
+                            ))
+                        ) : (
+                            <p className="text-gray-500">No messages available. Try suggesting some!</p>
+                        )}
+                    </CardContent>
+                </Card>
+                <div className="space-y-2 w-full">
+                    {isLoading ? (
+                        <Button disabled className="my-4 w-full text-white bg-blue-700 hover:bg-blue-800">
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Suggesting
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={fetchSuggestedMessages}
+                            className="my-4 w-full text-white bg-blue-700 hover:bg-blue-800"
+                            disabled={isLoading}
+                        >
+                            Suggest Messages
+                        </Button>
+                    )}
                 </div>
+            </div>
 
-            ) :
-                <div className="flex flex-1 justify-center items-center mt-10">
-                    {/* <h2 className="text-xl font-semibold mb-2">Messages:</h2> */}
-                    <p className="whitespace-pre-wrap text-lg">{aiMessages}</p>
-                </div >
-            }
-        </div >
+            <div className='w-full absolute overflow-hidden sm:bottom-5 mx-auto flex justify-center text-center'>
+                <div className='font-medium text-base align-text-bottom underline'>
+                    <a href="https://X.com/Vineet2OP" target="_blank" rel="noopener noreferrer" className='text-blue-500 hover:text-blue-700'>
+                        Made with 💖 By Vineet
+                    </a>
+                </div>
+            </div>
+        </div>
     );
 }

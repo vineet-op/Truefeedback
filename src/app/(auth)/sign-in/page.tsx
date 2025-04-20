@@ -6,8 +6,6 @@ import * as z from "zod"
 import Link from "next/link"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
-
-
 import {
     Form,
     FormControl,
@@ -16,6 +14,7 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
+
 import { Input } from "@/components/ui/input"
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -39,14 +38,27 @@ export default function Signin() {
     const { toast } = useToast();
 
     const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+        toast({
+            title: "Logging in...",
+            description: "Please wait a moment.",
+            variant: "default",
+            duration: 5000,
+        });
 
         const result = await signIn("credentials", {
             redirect: false,
             identifier: data.identifier,
             password: data.password
-        })
-        console.log(result);
+        });
 
+        toast({
+            title: "Login Successful",
+            description: "Redirecting to dashboard...",
+            variant: "default",
+            duration: 1000,
+        });
+
+        console.log(result);
 
         if (result?.error) {
             if (result.error == 'CredentialsSignin') {
@@ -63,13 +75,11 @@ export default function Signin() {
                     variant: "destructive"
                 })
             }
-
         }
 
         if (result?.url) {
             router.replace('/dashboard')
         }
-
     }
 
     return (

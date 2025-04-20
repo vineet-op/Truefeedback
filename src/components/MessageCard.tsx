@@ -17,13 +17,12 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from './ui/button'
-import { X } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import { Message } from '@/model/User'
 import { useToast } from './ui/use-toast'
 import axios, { AxiosError } from 'axios'
 import { ApiResponse } from '../../types/ApiResponse'
 import dayjs from "dayjs"
-
 
 
 type MessageCardProps = {
@@ -60,13 +59,13 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>{message.content}</CardTitle>
+                <CardTitle className='font-medium'>{message.content}</CardTitle>
 
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <div className='flex justify-end items-center'>
                             <Button variant='destructive'>
-                                <X className="size-8" />
+                                <Trash2 className="size-5" />
                             </Button>
                         </div>
                     </AlertDialogTrigger>
